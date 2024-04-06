@@ -1,0 +1,21 @@
+{
+  "port": 3003,
+  "rateLimitsPerEndpoint": [
+    {
+      "endpoint": "GET /user/:id",
+      "burst": 10,
+      "sustained": 6
+    },
+    {
+      "endpoint": "PATCH /user/:id",
+      "burst": 15,
+      "sustained": 12
+    },
+    {
+      "endpoint": "POST /userinfo",
+      "burst": 200,
+      "sustained": 12000
+    }
+  ]
+}
+  

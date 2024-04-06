@@ -1,0 +1,55 @@
+openapi: 3.0.2
+info:
+  title: Rate Limiter Service API
+  description: Limits the number of requests made to API endpoints.
+  version: 0.1.0
+paths:
+  /take:
+    get:
+      summary: Take token to access the API endpoint
+      tags:
+        - ""
+      parameters:
+        - name: endpoint
+          in: query
+          description: The API endpoint to check access for (e.g., GET /user/:id)
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Indicates whether the connection is accepted or rejected for the given endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RateLimiterResponse'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestError'
+
+components:
+  schemas:
+    RateLimiterResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          enum: [accepted, rejected]
+          description: Status indicating whether the connection is accepted or rejected
+        remaining_tokens:
+          type: integer
+          description: Number of remaining tokens for the given endpoint
+      example:
+        status: accepted
+        remaining_tokens: 10
+
+    BadRequestError:
+      type: object
+      properties:
+        error:
+          type: string
+          description: A description of the error that occurred.
+          example: Missing a required query parameter
